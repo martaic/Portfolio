@@ -98,7 +98,7 @@
     position:relative;
     display:flex;
     width:100%;
-    height:clamp(220px,38vw,340px);
+    height:clamp(160px,22vw,220px);
     border:1px solid var(--line-800);
     border-radius:10px;
     overflow:hidden;
@@ -107,7 +107,7 @@
   }
   .panel{
     height:100%;
-    padding:1.25rem 1.4rem;
+    padding:1.1rem 1.3rem;
     overflow:hidden;
   }
   .code-panel{
@@ -115,6 +115,7 @@
     min-width:120px;
     background:#120821;
     border-right:1px solid var(--line-800);
+    display:flex; flex-direction:column; gap:0.6rem;
   }
   .timeline-panel{
     flex:1;
@@ -124,31 +125,65 @@
   }
   .panel-label{
     font-family:var(--font-mono);
-    font-size:0.68rem;
+    font-size:0.65rem;
     letter-spacing:0.12em;
     text-transform:uppercase;
-    margin-bottom:0.9rem;
     display:block;
+    flex-shrink:0;
   }
   .code-panel .panel-label{color:var(--code-mint);}
   .timeline-panel .panel-label{color:var(--edit-coral);}
 
-  .code-mock{font-family:var(--font-mono); font-size:0.82rem; line-height:1.75; white-space:pre;}
-  .tok-com{color:var(--paper-35);}
-  .tok-key{color:var(--edit-coral);}
-  .tok-str{color:var(--code-mint);}
-  .tok-punc{color:var(--paper-60);}
+  /* stack chips animados */
+  .stack-chips{display:flex; flex-wrap:wrap; gap:0.4rem; align-content:flex-start;}
+  .stack-chip{
+    font-family:var(--font-mono); font-size:0.72rem;
+    border:1px solid var(--line-800); border-radius:4px;
+    padding:0.25rem 0.55rem;
+    opacity:0; transform:translateY(6px);
+    transition:opacity .3s ease, transform .3s ease;
+  }
+  .stack-chip.visible{opacity:1; transform:translateY(0);}
+  .stack-chip.c-green{border-color:var(--code-mint); color:var(--code-mint);}
+  .stack-chip.c-pink{border-color:var(--edit-coral); color:var(--edit-coral);}
+  .stack-chip.c-cyan{border-color:var(--cyan); color:var(--cyan);}
 
-  .waveform{display:flex; align-items:flex-end; gap:3px; height:64px;}
+  /* cursor parpadeante */
+  .cursor{
+    display:inline-block; width:2px; height:0.9em;
+    background:var(--code-mint); vertical-align:middle;
+    animation:blink 1s step-end infinite;
+  }
+  @keyframes blink{ 0%,100%{opacity:1;} 50%{opacity:0;} }
+
+  /* waveform animado */
+  .waveform{display:flex; align-items:center; gap:3px; height:56px;}
   .waveform span{
     display:block; width:4px; border-radius:2px;
-    background:var(--edit-coral); opacity:0.85;
+    transform-origin:center;
+    animation:wave-bar 1.2s ease-in-out infinite;
+  }
+  @keyframes wave-bar{
+    0%,100%{transform:scaleY(0.3);}
+    50%{transform:scaleY(1);}
   }
   .timecode{
-    font-family:var(--font-mono); font-size:0.78rem; color:var(--paper-60);
+    font-family:var(--font-mono); font-size:0.72rem; color:var(--paper-60);
     display:flex; justify-content:space-between; align-items:center;
   }
   .timecode b{color:var(--paper-100); font-weight:500; letter-spacing:0.03em;}
+
+  /* render progress bar */
+  .render-progress{
+    height:3px; border-radius:2px;
+    background:var(--line-800); overflow:hidden;
+  }
+  .render-progress-fill{
+    height:100%; border-radius:2px;
+    background:linear-gradient(90deg, var(--edit-coral), var(--cyan));
+    animation:render-fill 3s ease-in-out infinite alternate;
+  }
+  @keyframes render-fill{ from{width:18%;} to{width:94%;} }
 
   .divider{
     position:absolute; top:0; bottom:0;
@@ -429,8 +464,8 @@
 
 <div class="ticker" aria-hidden="true">
   <div class="ticker-track">
-    <span>FULL STACK DEVELOPER ✦ EDICIÓN AUDIOVISUAL ✦ REACT ✦ REMOTION ✦ SUPABASE ✦ PHASER 3 ✦ FFMPEG ✦  ✦</span>
-    <span>FULL STACK DEVELOPER ✦ EDICIÓN AUDIOVISUAL ✦ REACT ✦ REMOTION ✦ SUPABASE ✦ PHASER 3 ✦ FFMPEG ✦  ✦</span>
+    <span>FULL STACK DEVELOPER ✦ EDICIÓN AUDIOVISUAL ✦ REACT ✦ REMOTION ✦ SUPABASE ✦ PHASER 3 ✦ FFMPEG ✦ CLAUDE CODE ✦</span>
+    <span>FULL STACK DEVELOPER ✦ EDICIÓN AUDIOVISUAL ✦ REACT ✦ REMOTION ✦ SUPABASE ✦ PHASER 3 ✦ FFMPEG ✦ CLAUDE CODE ✦</span>
   </div>
 </div>
 
@@ -442,14 +477,8 @@
   </div>
   <div class="duo-panel" id="duoPanel">
     <div class="panel code-panel">
-      <span class="panel-label">full_stack.dev</span>
-      <pre class="code-mock"><span class="tok-com">// stack.js</span>
-<span class="tok-key">const</span> marta = {
-  rol: <span class="tok-str">'Full Stack Dev'</span>,
-  stack: [<span class="tok-str">'Supabase'</span>,
-    <span class="tok-str">'Shopify'</span>, <span class="tok-str">'Python'</span>],
-  construye: <span class="tok-str">'lo que no se ve'</span>
-};</pre>
+      <span class="panel-label">full_stack.dev <span class="cursor"></span></span>
+      <div class="stack-chips" id="stackChips"></div>
     </div>
 
     <div class="divider" id="divider" tabindex="0" role="separator" aria-orientation="vertical" aria-label="Arrastra para comparar desarrollo y edición audiovisual">
@@ -462,20 +491,20 @@
     <div class="panel timeline-panel">
       <span class="panel-label">edición.av</span>
       <div class="waveform" id="waveform"></div>
-      <div class="timecode"><span>REMOTION_RENDER.mp4</span><b>00:00:14:22</b></div>
+      <div class="render-progress"><div class="render-progress-fill"></div></div>
+      <div class="timecode"><span>REMOTION_RENDER.mp4</span><b id="timecodeVal">00:00:00:00</b></div>
     </div>
   </div>
 
   <div class="hero-text">
     <h1>Marta Iñigo Casado</h1>
     <p class="hero-role">Full Stack Developer · Edición & Diseño Audiovisual</p>
-    <p class="hero-thesis">De la base de datos al render final</p>
     <a href="#proyectos" class="scroll-cue">Ver proyectos ↓</a>
   </div>
 </section>
 
 <section class="about">
-  <p>Me muevo entre dos pantallas que casi nunca se hablan: el editor de código y la línea de tiempo de vídeo. Programo interfaces y backends, y edito y animo el contenido que esas mismas plataformas terminan publicando. Estos son los proyectos en los que estoy trabajando <strong>ahora mismo</strong>.</p>
+  <p>Desarrolladora Full-Stack con experiencia en <strong>JavaScript, React, Python y SQL</strong>. Sólida formación previa en comunicación digital y gestión de la información. Soy comprometida, responsable y motivada para aprender constantemente.</p>
 </section>
 
 <section class="projects" id="proyectos">
@@ -652,17 +681,89 @@
     });
   })();
 
-  // --- Waveform bars ---
+  // --- Typewriter código ---
+  (function(){
+    var container = document.getElementById('stackChips');
+    var lines = [
+      {text:'const dev = {', color:'var(--paper-60)'},
+      {text:'  nombre: "Marta Iñigo Casado",', color:'var(--code-mint)'},
+      {text:'  rol: "Full Stack Developer",', color:'var(--cyan)'},
+      {text:'  formacion: [', color:'var(--paper-60)'},
+      {text:'    "4Geeks Academy",', color:'var(--edit-coral)'},
+      {text:'    "Comunicación Audiovisual · UEx",', color:'var(--edit-coral)'},
+      {text:'    "Información y Documentación · UEx",', color:'var(--edit-coral)'},
+      {text:'  ]', color:'var(--paper-60)'},
+      {text:'};', color:'var(--paper-60)'},
+    ];
+
+    container.style.fontFamily = 'var(--font-mono)';
+    container.style.fontSize = '0.72rem';
+    container.style.lineHeight = '1.7';
+    container.style.display = 'flex';
+    container.style.flexDirection = 'column';
+    container.style.gap = '0';
+    container.style.overflow = 'hidden';
+
+    var lineIndex = 0;
+    var charIndex = 0;
+    var currentEl = null;
+
+    function nextLine(){
+      if(lineIndex >= lines.length) return;
+      var line = lines[lineIndex];
+      currentEl = document.createElement('span');
+      currentEl.style.color = line.color;
+      currentEl.style.whiteSpace = 'pre';
+      container.appendChild(currentEl);
+      charIndex = 0;
+      typeChar();
+    }
+
+    function typeChar(){
+      var line = lines[lineIndex];
+      if(charIndex < line.text.length){
+        currentEl.textContent += line.text[charIndex];
+        charIndex++;
+        setTimeout(typeChar, 28);
+      } else {
+        lineIndex++;
+        setTimeout(nextLine, 60);
+      }
+    }
+
+    setTimeout(nextLine, 400);
+  })();
+
+  // --- Waveform animado ---
   (function(){
     var wf = document.getElementById('waveform');
-    var heights = [18,34,52,28,44,60,22,38,50,30,46,20,36,58,26,42,32,48,24,40];
+    var heights = [22,38,55,30,48,64,26,42,58,32,50,24,40,62,28,44,36,52,20,46];
     var colors = ['var(--edit-coral)','var(--cyan)','var(--code-mint)'];
     heights.forEach(function(h, i){
       var bar = document.createElement('span');
       bar.style.height = h + 'px';
       bar.style.background = colors[i % colors.length];
+      bar.style.animationDelay = (i * 0.06) + 's';
+      bar.style.animationDuration = (0.9 + (i % 4) * 0.15) + 's';
       wf.appendChild(bar);
     });
+  })();
+
+  // --- Timecode animado ---
+  (function(){
+    var el = document.getElementById('timecodeVal');
+    if(!el) return;
+    var frames = 0;
+    setInterval(function(){
+      frames++;
+      var f = frames % 25;
+      var s = Math.floor(frames / 25) % 60;
+      var m = Math.floor(frames / 1500) % 60;
+      el.textContent = '00:' +
+        String(m).padStart(2,'0') + ':' +
+        String(s).padStart(2,'0') + ':' +
+        String(f).padStart(2,'0');
+    }, 40);
   })();
 
   // --- Scroll reveal ---
