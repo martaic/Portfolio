@@ -1,789 +1,440 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Marta Iñigo Casado — Full Stack Developer & Edición Audiovisual</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --ink-950:#0A0014;
-    --panel-900:#170B28;
-    --line-800:#3D2159;
-    --paper-100:#FAF5FF;
-    --paper-60:rgba(250,245,255,0.62);
-    --paper-35:rgba(250,245,255,0.35);
-    --code-mint:#C6FF3D;
-    --edit-coral:#FF2E9A;
-    --cyan:#29F1FF;
-    --font-display:'Anton', sans-serif;
-    --font-body:'Inter', sans-serif;
-    --font-mono:'JetBrains Mono', monospace;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marta Iñigo Casado — Full Stack Developer & Edición Audiovisual</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0;
-    background:var(--ink-950);
-    color:var(--paper-100);
-    font-family:var(--font-body);
-    line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-  }
-  a{color:inherit;}
-  ::selection{background:var(--code-mint);color:var(--ink-950);}
-
-  a:focus-visible, summary:focus-visible, .divider:focus-visible, button:focus-visible{
-    outline:2px solid var(--code-mint);
-    outline-offset:3px;
-    border-radius:2px;
-  }
-
-  /* ---------- NAV ---------- */
-  .nav{
-    position:sticky; top:0; z-index:50;
-    display:flex; align-items:center; justify-content:space-between;
-    padding:1.1rem clamp(1.25rem,5vw,3rem);
-    background:rgba(14,15,19,0.78);
-    backdrop-filter:blur(8px);
-    border-bottom:1px solid var(--line-800);
-  }
-  .nav-name{
-    font-family:var(--font-mono);
-    font-size:0.85rem;
-    letter-spacing:0.04em;
-    color:var(--paper-60);
-  }
-  .dot{
-    display:inline-block; width:8px; height:8px; border-radius:50%;
-    background:var(--code-mint); margin-right:0.55rem; vertical-align:middle;
-  }
-  .nav-links{display:flex; gap:1.75rem; font-size:0.85rem;}
-  .nav-links a{text-decoration:none; color:var(--paper-60); transition:color .2s;}
-  .nav-links a:hover{color:var(--paper-100);}
-
-  /* ---------- TICKER ---------- */
-  .ticker{overflow:hidden; background:var(--code-mint); border-bottom:1px solid var(--line-800);}
-  .ticker-track{display:flex; width:max-content; animation:ticker-scroll 24s linear infinite;}
-  .ticker-track span{
-    font-family:var(--font-mono); font-weight:700; font-size:0.74rem;
-    letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-950);
-    white-space:nowrap; padding:0.6rem 1.4rem;
-  }
-  @keyframes ticker-scroll{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
-  @media (prefers-reduced-motion: reduce){ .ticker-track{animation:none;} }
-
-  section{padding:clamp(3rem,8vw,6rem) clamp(1.25rem,6vw,4rem);}
-
-  /* ---------- HERO ---------- */
-  .hero{
-    position:relative;
-    overflow:hidden;
-    padding-top:clamp(2.5rem,6vw,4rem);
-    display:flex; flex-direction:column; gap:clamp(2rem,5vw,3.5rem);
-  }
-  .hero-glow{position:absolute; inset:0; z-index:0; pointer-events:none;}
-  .hero-glow span{
-    position:absolute; border-radius:50%; filter:blur(70px); opacity:0.35;
-  }
-  .hero-glow .g-volt{width:380px; height:380px; top:-120px; left:-80px; background:var(--code-mint);}
-  .hero-glow .g-magenta{width:420px; height:420px; top:40px; right:-140px; background:var(--edit-coral);}
-  .hero-glow .g-cyan{width:320px; height:320px; bottom:-160px; left:30%; background:var(--cyan);}
-  .hero > *{position:relative; z-index:1;}
-
-  .duo-panel{
-    position:relative;
-    display:flex;
-    width:100%;
-    height:clamp(160px,22vw,220px);
-    border:1px solid var(--line-800);
-    border-radius:10px;
-    overflow:hidden;
-    background:var(--panel-900);
-    --split:50%;
-  }
-  .panel{
-    height:100%;
-    padding:1.1rem 1.3rem;
-    overflow:hidden;
-  }
-  .code-panel{
-    width:var(--split);
-    min-width:120px;
-    background:#120821;
-    border-right:1px solid var(--line-800);
-    display:flex; flex-direction:column; gap:0.6rem;
-  }
-  .timeline-panel{
-    flex:1;
-    min-width:120px;
-    background:#160C2C;
-    display:flex; flex-direction:column; justify-content:space-between;
-  }
-  .panel-label{
-    font-family:var(--font-mono);
-    font-size:0.65rem;
-    letter-spacing:0.12em;
-    text-transform:uppercase;
-    display:block;
-    flex-shrink:0;
-  }
-  .code-panel .panel-label{color:var(--code-mint);}
-  .timeline-panel .panel-label{color:var(--edit-coral);}
-
-  /* stack chips animados */
-  .stack-chips{display:flex; flex-wrap:wrap; gap:0.4rem; align-content:flex-start;}
-  .stack-chip{
-    font-family:var(--font-mono); font-size:0.72rem;
-    border:1px solid var(--line-800); border-radius:4px;
-    padding:0.25rem 0.55rem;
-    opacity:0; transform:translateY(6px);
-    transition:opacity .3s ease, transform .3s ease;
-  }
-  .stack-chip.visible{opacity:1; transform:translateY(0);}
-  .stack-chip.c-green{border-color:var(--code-mint); color:var(--code-mint);}
-  .stack-chip.c-pink{border-color:var(--edit-coral); color:var(--edit-coral);}
-  .stack-chip.c-cyan{border-color:var(--cyan); color:var(--cyan);}
-
-  /* cursor parpadeante */
-  .cursor{
-    display:inline-block; width:2px; height:0.9em;
-    background:var(--code-mint); vertical-align:middle;
-    animation:blink 1s step-end infinite;
-  }
-  @keyframes blink{ 0%,100%{opacity:1;} 50%{opacity:0;} }
-
-  /* waveform animado */
-  .waveform{display:flex; align-items:center; gap:3px; height:56px;}
-  .waveform span{
-    display:block; width:4px; border-radius:2px;
-    transform-origin:center;
-    animation:wave-bar 1.2s ease-in-out infinite;
-  }
-  @keyframes wave-bar{
-    0%,100%{transform:scaleY(0.3);}
-    50%{transform:scaleY(1);}
-  }
-  .timecode{
-    font-family:var(--font-mono); font-size:0.72rem; color:var(--paper-60);
-    display:flex; justify-content:space-between; align-items:center;
-  }
-  .timecode b{color:var(--paper-100); font-weight:500; letter-spacing:0.03em;}
-
-  /* render progress bar */
-  .render-progress{
-    height:3px; border-radius:2px;
-    background:var(--line-800); overflow:hidden;
-  }
-  .render-progress-fill{
-    height:100%; border-radius:2px;
-    background:linear-gradient(90deg, var(--edit-coral), var(--cyan));
-    animation:render-fill 3s ease-in-out infinite alternate;
-  }
-  @keyframes render-fill{ from{width:18%;} to{width:94%;} }
-
-  .divider{
-    position:absolute; top:0; bottom:0;
-    left:var(--split);
-    width:18px; margin-left:-9px;
-    cursor:ew-resize;
-    display:flex; align-items:center; justify-content:center;
-    z-index:5;
-    background:transparent;
-    -webkit-tap-highlight-color:transparent;
-  }
-  .divider::before{
-    content:""; position:absolute; top:0; bottom:0; left:50%;
-    width:1px; background:var(--line-800); transform:translateX(-50%);
-  }
-  .divider-handle-wrap{
-    display:flex; flex-direction:column; align-items:center; gap:0.5rem;
-    pointer-events:none;
-  }
-  .divider-handle{
-    width:34px; height:34px; border-radius:50%;
-    background:var(--ink-950);
-    border:2px solid var(--code-mint);
-    display:flex; align-items:center; justify-content:center;
-    font-family:var(--font-mono); font-size:0.85rem; color:var(--paper-100);
-  }
-  .divider-label{
-    font-family:var(--font-mono); font-size:0.6rem; letter-spacing:0.12em;
-    color:var(--paper-60); white-space:nowrap;
-  }
-
-  .hero-text h1{
-    font-family:var(--font-display);
-    font-weight:400;
-    text-transform:uppercase;
-    font-size:clamp(2.4rem,6.2vw,4.2rem);
-    margin:0 0 0.6rem 0;
-    letter-spacing:0.01em;
-  }
-  .hero-role{
-    display:inline-block;
-    font-family:var(--font-mono);
-    font-weight:700;
-    font-size:clamp(0.78rem,1.4vw,0.92rem);
-    letter-spacing:0.04em;
-    color:var(--ink-950);
-    background:var(--code-mint);
-    padding:0.5rem 1rem;
-    border-radius:999px;
-    margin:0 0 1.5rem 0;
-  }
-  .hero-thesis{
-    font-family:var(--font-display);
-    font-weight:400;
-    text-transform:uppercase;
-    font-size:clamp(1.3rem,3vw,1.9rem);
-    max-width:34ch;
-    margin:0 0 1.8rem 0;
-    color:var(--paper-100);
-  }
-  .hero-thesis::before{content:'“'; color:var(--code-mint);}
-  .hero-thesis::after{content:'”'; color:var(--edit-coral);}
-
-  .scroll-cue{
-    display:inline-flex; align-items:center; gap:0.5rem;
-    font-family:var(--font-mono); font-size:0.82rem;
-    text-decoration:none; color:var(--paper-100);
-    border:1px solid var(--line-800);
-    padding:0.55rem 0.95rem;
-    border-radius:999px;
-    transition:border-color .2s, transform .2s;
-  }
-  .scroll-cue:hover{border-color:var(--code-mint); transform:translateY(2px);}
-
-  /* ---------- ABOUT ---------- */
-  .about{
-    position:relative;
-    overflow:hidden;
-    border-top:1px solid var(--line-800);
-    border-bottom:1px solid var(--line-800);
-    background:var(--panel-900);
-  }
-  .about::before{
-    content:'"';
-    font-family:var(--font-display);
-    font-size:16rem;
-    line-height:1;
-    position:absolute;
-    top:-3rem; left:0.5rem;
-    color:var(--code-mint);
-    opacity:0.1;
-    pointer-events:none;
-  }
-  .about p{
-    position:relative;
-    max-width:62ch;
-    font-size:clamp(1rem,1.6vw,1.15rem);
-    color:var(--paper-60);
-    margin:0;
-  }
-  .about p strong{color:var(--paper-100); font-weight:600;}
-
-  /* ---------- PROJECTS ---------- */
-  .projects h2, .contact h2{
-    font-family:var(--font-display);
-    font-weight:400;
-    text-transform:uppercase;
-    letter-spacing:0.01em;
-    font-size:clamp(1.7rem,3.4vw,2.4rem);
-    margin:0 0 2.2rem 0;
-  }
-  .project-list{display:flex; flex-direction:column; gap:1rem;}
-
-  .project-card{
-    border:1px solid var(--line-800);
-    border-radius:8px;
-    background:var(--panel-900);
-    border-left:4px solid var(--line-800);
-    overflow:hidden;
-    transition:transform .22s ease, box-shadow .22s ease;
-  }
-  .project-card:hover{transform:translateY(-3px);}
-  .project-card[open]{border-color:var(--line-800);}
-  .project-card.accent-code{border-left-color:var(--code-mint);}
-  .project-card.accent-code:hover{box-shadow:0 16px 36px -20px rgba(198,255,61,0.45);}
-  .project-card.accent-fusion{border-left-color:var(--edit-coral);}
-  .project-card.accent-fusion:hover{box-shadow:0 16px 36px -20px rgba(255,46,154,0.45);}
-
-  .project-card summary{
-    list-style:none;
-    cursor:pointer;
-    padding:1.4rem 1.6rem;
-    display:flex; align-items:flex-start; gap:1.1rem;
-    position:relative;
-  }
-  .project-card summary::-webkit-details-marker{display:none;}
-  .summary-main{flex:1; min-width:0;}
-
-  .eyebrow{
-    display:inline-block;
-    font-family:var(--font-mono);
-    font-weight:700;
-    font-size:0.65rem;
-    letter-spacing:0.08em;
-    text-transform:uppercase;
-    color:var(--ink-950);
-    background:var(--line-800);
-    padding:0.28rem 0.7rem;
-    border-radius:999px;
-  }
-  .accent-code .eyebrow{background:var(--code-mint);}
-  .accent-fusion .eyebrow{background:var(--edit-coral); color:var(--ink-950);}
-
-  .project-card h3{
-    font-family:var(--font-display);
-    font-weight:400;
-    text-transform:uppercase;
-    letter-spacing:0.01em;
-    font-size:clamp(1.1rem,2.1vw,1.4rem);
-    margin:0.3rem 0 0.4rem 0;
-  }
-  .one-liner{margin:0; color:var(--paper-60); font-size:0.95rem;}
-
-  .chevron{
-    flex-shrink:0; width:26px; height:26px; margin-top:0.2rem;
-    border:1px solid var(--line-800); border-radius:50%;
-    display:flex; align-items:center; justify-content:center;
-    transition:transform .25s ease;
-  }
-  .project-card[open] .chevron{transform:rotate(45deg);}
-  .chevron svg{width:11px; height:11px;}
-
-  .project-detail{
-    padding:0 1.6rem 1.6rem 1.6rem;
-    margin-left:0;
-  }
-  .project-detail p{
-    color:var(--paper-100);
-    max-width:62ch;
-    margin:0 0 1.1rem 0;
-    font-size:0.97rem;
-  }
-  .tags{list-style:none; display:flex; flex-wrap:wrap; gap:0.5rem; padding:0; margin:0;}
-  .tags li{
-    font-family:var(--font-mono);
-    font-size:0.72rem;
-    border:1px solid var(--line-800);
-    border-radius:999px;
-    padding:0.32rem 0.7rem;
-    color:var(--paper-60);
-  }
-  .accent-code .tags li{border-color:var(--code-mint); color:var(--code-mint);}
-  .accent-fusion .tags li{border-color:var(--edit-coral); color:var(--edit-coral);}
-
-  .tech-breakdown{display:flex; flex-direction:column; gap:1.2rem; margin-bottom:1.3rem;}
-  .tech-group-title{
-    font-family:var(--font-mono);
-    font-size:0.68rem;
-    letter-spacing:0.08em;
-    text-transform:uppercase;
-    display:block;
-    margin-bottom:0.55rem;
-  }
-  .accent-code .tech-group-title{color:var(--code-mint);}
-  .accent-fusion .tech-group-title{color:var(--edit-coral);}
-  .tech-group p{margin:0 0 0.5rem 0; font-size:0.93rem; color:var(--paper-60); max-width:62ch;}
-  .tech-group p:last-child{margin-bottom:0;}
-  .tech-group p strong{color:var(--paper-100); font-weight:600;}
-  .tech-group code{
-    font-family:var(--font-mono);
-    font-size:0.85em;
-    background:rgba(255,255,255,0.06);
-    padding:0.1em 0.4em;
-    border-radius:4px;
-    color:var(--edit-coral);
-  }
-
-  /* reveal on scroll */
-  .reveal{opacity:0; transform:translateY(14px);}
-  .reveal.is-visible{opacity:1; transform:translateY(0); transition:opacity .55s ease, transform .55s ease;}
-
-  /* ---------- CONTACT ---------- */
-  .contact{
-    border-top:1px solid var(--line-800);
-    background:var(--panel-900);
-  }
-  .contact p{color:var(--paper-60); max-width:50ch; margin:0 0 2rem 0;}
-  .link-row{display:flex; flex-wrap:wrap; gap:0.9rem;}
-  .pill-link{
-    font-family:var(--font-mono); font-size:0.85rem; font-weight:600;
-    text-decoration:none; color:var(--paper-100);
-    border:2px solid var(--line-800);
-    padding:0.7rem 1.3rem;
-    border-radius:999px;
-    display:inline-flex; align-items:center; gap:0.5rem;
-    transition:border-color .2s, color .2s, background .2s;
-  }
-  .pill-link:nth-of-type(1){border-color:var(--code-mint);}
-  .pill-link:nth-of-type(1):hover{background:var(--code-mint); color:var(--ink-950);}
-  .pill-link:nth-of-type(2){border-color:var(--cyan);}
-  .pill-link:nth-of-type(2):hover{background:var(--cyan); color:var(--ink-950);}
-  .pill-link:nth-of-type(3){border-color:var(--edit-coral);}
-  .pill-link:nth-of-type(3):hover{background:var(--edit-coral); color:var(--ink-950);}
-
-  footer.fineprint{
-    text-align:center;
-    font-family:var(--font-mono);
-    font-size:0.72rem;
-    color:var(--paper-35);
-    padding:1.6rem 1rem 2.4rem;
-  }
-
-  @media (max-width:700px){
-    .duo-panel{flex-direction:column; height:auto;}
-    .code-panel, .timeline-panel{width:100% !important; height:170px;}
-    .divider{display:none;}
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    *, *::before, *::after{
-      animation-duration:0.001ms !important;
-      transition-duration:0.001ms !important;
-      scroll-behavior:auto !important;
+    :root {
+      --bg: #06060A;
+      --surface: #0E0E16;
+      --border: #1E1E2E;
+      --text: #E8E8F0;
+      --muted: #6B6B80;
+      --accent: #7C6FF7;
+      --accent2: #C084FC;
+      --green: #34D399;
+      --red: #F87171;
+      --yellow: #FBBF24;
+      --mono: 'Space Mono', monospace;
+      --sans: 'Space Grotesk', sans-serif;
     }
-    .reveal{opacity:1; transform:none;}
-  }
-</style>
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.25rem 2rem;
+      background: rgba(6,6,10,0.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); text-decoration: none; letter-spacing: 0.05em; transition: color .2s; }
+    .nav-links a:hover { color: var(--text); }
+
+    /* TICKER */
+    .ticker-wrap { overflow: hidden; background: var(--surface); border-bottom: 1px solid var(--border); padding: 0.6rem 0; margin-top: 61px; }
+    .ticker { display: flex; gap: 3rem; white-space: nowrap; animation: ticker 30s linear infinite; }
+    .ticker span { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.1em; }
+    .ticker span.hi { color: var(--accent); }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* HERO */
+    .hero {
+      min-height: 90vh; display: flex; flex-direction: column;
+      justify-content: center; padding: 6rem 2rem 4rem;
+      max-width: 900px; margin: 0 auto;
+    }
+    .hero-label { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); letter-spacing: 0.12em; margin-bottom: 1.5rem; }
+    .hero-name { font-size: clamp(2.8rem, 7vw, 5.5rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+    .hero-name em { font-style: normal; color: var(--accent); }
+    .hero-desc { font-size: 1.1rem; color: var(--muted); max-width: 540px; line-height: 1.7; margin-bottom: 2.5rem; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .tag { font-family: var(--mono); font-size: 0.7rem; padding: 0.3rem 0.75rem; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); letter-spacing: 0.05em; }
+    .tag.hi { border-color: var(--accent); color: var(--accent); background: rgba(124,111,247,0.08); }
+
+    /* SECCIONES */
+    section { max-width: 900px; margin: 0 auto; padding: 5rem 2rem; border-top: 1px solid var(--border); }
+    .section-label { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.12em; margin-bottom: 2.5rem; }
+    h2 { font-size: 1.8rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+
+    /* EXPERIENCIA */
+    .exp-list { display: flex; flex-direction: column; gap: 0; }
+    .exp-item {
+      display: grid; grid-template-columns: 160px 1fr;
+      gap: 0 2.5rem; padding: 2rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .exp-item:last-child { border-bottom: none; }
+    .exp-meta { padding-top: 0.2rem; }
+    .exp-date { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+    .exp-type { font-family: var(--mono); font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 4px; display: inline-block; }
+    .exp-type.practicas { background: rgba(124,111,247,0.12); color: var(--accent); border: 1px solid rgba(124,111,247,0.3); }
+    .exp-type.laboral { background: rgba(52,211,153,0.1); color: var(--green); border: 1px solid rgba(52,211,153,0.3); }
+    .exp-type.formacion { background: rgba(251,191,36,0.1); color: var(--yellow); border: 1px solid rgba(251,191,36,0.3); }
+    .exp-body h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.2rem; letter-spacing: -0.01em; }
+    .exp-body .exp-company { font-family: var(--mono); font-size: 0.78rem; color: var(--accent); margin-bottom: 0.75rem; }
+    .exp-body p { font-size: 0.88rem; color: var(--muted); line-height: 1.65; max-width: 560px; }
+    .exp-skills { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.9rem; }
+    .exp-skill { font-family: var(--mono); font-size: 0.62rem; padding: 0.18rem 0.55rem; border-radius: 4px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); }
+
+    /* PROYECTOS */
+    .project-list { display: flex; flex-direction: column; gap: 3rem; }
+    .project {
+      display: grid; grid-template-columns: 1fr;
+      border: 1px solid var(--border); border-radius: 12px;
+      overflow: hidden; background: var(--surface);
+    }
+    .project-header { padding: 1.75rem 2rem 1.25rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+    .project-status { font-family: var(--mono); font-size: 0.65rem; padding: 0.22rem 0.6rem; border-radius: 4px; white-space: nowrap; }
+    .project-status.done { background: rgba(52,211,153,0.1); color: var(--green); border: 1px solid rgba(52,211,153,0.3); }
+    .project-status.wip { background: rgba(251,191,36,0.1); color: var(--yellow); border: 1px solid rgba(251,191,36,0.3); }
+    .project-status.active { background: rgba(124,111,247,0.12); color: var(--accent); border: 1px solid rgba(124,111,247,0.3); }
+    .project-title { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.3rem; }
+    .project-subtitle { font-size: 0.85rem; color: var(--muted); }
+    .project-body { padding: 1.75rem 2rem; }
+    .tech-group { margin-bottom: 1.5rem; }
+    .tech-group:last-child { margin-bottom: 0; }
+    .tech-group-label { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; margin-bottom: 0.6rem; text-transform: uppercase; }
+    .tech-item { margin-bottom: 0.5rem; font-size: 0.875rem; line-height: 1.6; color: var(--muted); }
+    .tech-item strong { color: var(--text); font-weight: 600; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 1.25rem 2rem; border-top: 1px solid var(--border); }
+    .project-tag { font-family: var(--mono); font-size: 0.62rem; padding: 0.2rem 0.55rem; border-radius: 4px; background: var(--bg); border: 1px solid var(--border); color: var(--muted); }
+
+    /* CONTACTO */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+    .contact-link {
+      display: flex; flex-direction: column; gap: 0.3rem;
+      padding: 1.5rem; border: 1px solid var(--border); border-radius: 10px;
+      text-decoration: none; background: var(--surface);
+      transition: border-color .2s, background .2s;
+    }
+    .contact-link:hover { border-color: var(--accent); background: rgba(124,111,247,0.05); }
+    .contact-link-label { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.08em; }
+    .contact-link-value { font-size: 0.9rem; color: var(--text); font-weight: 500; }
+
+    /* FOOTER */
+    footer { text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--border); }
+    footer p { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); }
+
+    /* RESPONSIVE */
+    @media (max-width: 640px) {
+      .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      .exp-meta { display: flex; gap: 0.75rem; align-items: center; }
+      .contact-grid { grid-template-columns: 1fr; }
+      nav { padding: 1rem 1.25rem; }
+      .nav-links { gap: 1.25rem; }
+      section { padding: 3.5rem 1.25rem; }
+      .project-header, .project-body, .project-tags { padding-left: 1.25rem; padding-right: 1.25rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) { .ticker { animation: none; } }
+  </style>
 </head>
 <body>
 
-<header class="nav">
-  <span class="nav-name"><span class="dot"></span>M. IÑIGO CASADO</span>
-  <nav class="nav-links">
-    <a href="#proyectos">Proyectos</a>
-    <a href="#contacto">Contacto</a>
+  <nav>
+    <a href="#" class="nav-logo">M. IÑIGO CASADO</a>
+    <ul class="nav-links">
+      <li><a href="#experiencia">Experiencia</a></li>
+      <li><a href="#proyectos">Proyectos</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
   </nav>
-</header>
 
-<div class="ticker" aria-hidden="true">
-  <div class="ticker-track">
-    <span>FULL STACK DEVELOPER ✦ EDICIÓN AUDIOVISUAL ✦ REACT ✦ REMOTION ✦ SUPABASE ✦ PHASER 3 ✦ FFMPEG ✦ CLAUDE CODE ✦</span>
-    <span>FULL STACK DEVELOPER ✦ EDICIÓN AUDIOVISUAL ✦ REACT ✦ REMOTION ✦ SUPABASE ✦ PHASER 3 ✦ FFMPEG ✦ CLAUDE CODE ✦</span>
-  </div>
-</div>
-
-<section class="hero">
-  <div class="hero-glow" aria-hidden="true">
-    <span class="g-volt"></span>
-    <span class="g-magenta"></span>
-    <span class="g-cyan"></span>
-  </div>
-  <div class="duo-panel" id="duoPanel">
-    <div class="panel code-panel">
-      <span class="panel-label">full_stack.dev <span class="cursor"></span></span>
-      <div class="stack-chips" id="stackChips"></div>
-    </div>
-
-    <div class="divider" id="divider" tabindex="0" role="separator" aria-orientation="vertical" aria-label="Arrastra para comparar desarrollo y edición audiovisual">
-      <div class="divider-handle-wrap">
-        <span class="divider-handle">⇆</span>
-        <span class="divider-label">ARRASTRA</span>
-      </div>
-    </div>
-
-    <div class="panel timeline-panel">
-      <span class="panel-label">edición.av</span>
-      <div class="waveform" id="waveform"></div>
-      <div class="render-progress"><div class="render-progress-fill"></div></div>
-      <div class="timecode"><span>REMOTION_RENDER.mp4</span><b id="timecodeVal">00:00:00:00</b></div>
+  <div class="ticker-wrap">
+    <div class="ticker">
+      <span class="hi">FULL STACK DEVELOPER</span><span>✦</span>
+      <span>EDICIÓN AUDIOVISUAL</span><span>✦</span>
+      <span class="hi">REACT</span><span>✦</span>
+      <span>REMOTION</span><span>✦</span>
+      <span class="hi">PYTHON</span><span>✦</span>
+      <span>SUPABASE</span><span>✦</span>
+      <span class="hi">MOTION DESIGN</span><span>✦</span>
+      <span>PHASER 3</span><span>✦</span>
+      <span class="hi">FFMPEG</span><span>✦</span>
+      <span>CLAUDE CODE</span><span>✦</span>
+      <span class="hi">GITHUB ACTIONS</span><span>✦</span>
+      <span>FASTER-WHISPER</span><span>✦</span>
+      <!-- duplicado para loop continuo -->
+      <span class="hi">FULL STACK DEVELOPER</span><span>✦</span>
+      <span>EDICIÓN AUDIOVISUAL</span><span>✦</span>
+      <span class="hi">REACT</span><span>✦</span>
+      <span>REMOTION</span><span>✦</span>
+      <span class="hi">PYTHON</span><span>✦</span>
+      <span>SUPABASE</span><span>✦</span>
+      <span class="hi">MOTION DESIGN</span><span>✦</span>
+      <span>PHASER 3</span><span>✦</span>
+      <span class="hi">FFMPEG</span><span>✦</span>
+      <span>CLAUDE CODE</span><span>✦</span>
+      <span class="hi">GITHUB ACTIONS</span><span>✦</span>
+      <span>FASTER-WHISPER</span><span>✦</span>
     </div>
   </div>
 
-  <div class="hero-text">
-    <h1>Marta Iñigo Casado</h1>
-    <p class="hero-role">Full Stack Developer · Edición & Diseño Audiovisual</p>
-    <a href="#proyectos" class="scroll-cue">Ver proyectos ↓</a>
+  <!-- HERO -->
+  <div class="hero">
+    <p class="hero-label">full_stack.dev · edición.av</p>
+    <h1 class="hero-name">Marta<br>Iñigo <em>Casado</em></h1>
+    <p class="hero-desc">Desarrolladora Full-Stack con experiencia en <strong>JavaScript, React, Python y SQL</strong>. Sólida formación previa en comunicación digital y gestión de la información. Comprometida, responsable y motivada para aprender constantemente.</p>
+    <div class="hero-tags">
+      <span class="tag hi">React / TypeScript</span>
+      <span class="tag hi">Remotion</span>
+      <span class="tag hi">Python</span>
+      <span class="tag">Supabase</span>
+      <span class="tag">Phaser 3</span>
+      <span class="tag">FFmpeg</span>
+      <span class="tag">GitHub Actions</span>
+      <span class="tag">Figma</span>
+      <span class="tag">DaVinci Resolve</span>
+    </div>
   </div>
-</section>
 
-<section class="about">
-  <p>Desarrolladora Full-Stack con experiencia en <strong>JavaScript, React, Python y SQL</strong>. Sólida formación previa en comunicación digital y gestión de la información. Soy comprometida, responsable y motivada para aprender constantemente.</p>
-</section>
+  <!-- EXPERIENCIA -->
+  <section id="experiencia">
+    <p class="section-label">EXPERIENCIA & FORMACIÓN</p>
+    <div class="exp-list">
 
-<section class="projects" id="proyectos">
-  <h2>Proyectos</h2>
-  <div class="project-list">
-
-    <details class="project-card accent-code reveal">
-      <summary>
-        <div class="summary-main">
-          <span class="eyebrow">Proyecto completado</span>
-          <h3>Tienda online — Shopify + Supabase</h3>
-          <p class="one-liner">E-commerce con backend propio y diseño construido desde cero, sin plantillas.</p>
+      <div class="exp-item">
+        <div class="exp-meta">
+          <p class="exp-date">2026</p>
+          <span class="exp-type practicas">Prácticas</span>
         </div>
-        <span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span>
-      </summary>
-      <div class="project-detail">
-        <div class="tech-breakdown">
-          <div class="tech-group">
-            <span class="tech-group-title">Frontend & gestión de estado</span>
-            <p><strong>React (Vite)</strong> — framework principal para construir una interfaz rápida y reactiva, con arquitectura modular basada en componentes funcionales.</p>
-            <p><strong>React Context API</strong> — sistema de estado global (<code>CartContext</code>) para controlar el carrito de compra: añadir productos, actualizar cantidades de forma dinámica, vaciar ítems y sincronizar los totales en euros entre rutas y componentes, sin prop-drilling.</p>
-          </div>
-          <div class="tech-group">
-            <span class="tech-group-title">E-commerce & pasarela de pago</span>
-            <p><strong>Shopify Storefront API (GraphQL)</strong> — conexión del frontend con el motor de Shopify mediante consultas y mutaciones optimizadas.</p>
-            <p><strong>Shopify Cart API & Checkout</strong> — servicio intermedio propio (<code>shopifyCheckout</code>) que transforma y mapea los IDs de productos de la base de datos local a variantes globales de la API (<code>gid://shopify/ProductVariant/</code>), logrando la redirección a la pasarela segura de pago.</p>
-          </div>
-          <div class="tech-group">
-            <span class="tech-group-title">Backend & persistencia</span>
-            <p><strong>Supabase</strong> — usado como BaaS para la gestión y almacenamiento del catálogo de productos y usuarios, con persistencia en una base de datos relacional PostgreSQL.</p>
-          </div>
-          <div class="tech-group">
-            <span class="tech-group-title">Control de versiones & DevOps</span>
-            <p><strong>Git & GitHub</strong> — gestión del historial de ramas, resolución de conflictos de combinación (estrategia <code>--ours</code>), sincronización local-remota y despliegue desde GitHub Codespaces a entornos locales.</p>
-            <p><strong>Visual Studio Code</strong> — IDE principal, con control de versiones integrado y terminal avanzada (PowerShell/Bash) para automatizar comandos de Git.</p>
+        <div class="exp-body">
+          <h3>Desarrolladora Full Stack & Content Creator</h3>
+          <p class="exp-company">QuantumSec España · Badajoz</p>
+          <p>Diseño y desarrollo del pipeline completo de producción de contenido audiovisual para LinkedIn e Instagram. Animaciones programáticas con Remotion/React, automatización con Python, síntesis de voz con ElevenLabs y bot semanal de generación de calendario editorial con GitHub Actions.</p>
+          <div class="exp-skills">
+            <span class="exp-skill">Remotion</span>
+            <span class="exp-skill">React/TSX</span>
+            <span class="exp-skill">Python/Pillow</span>
+            <span class="exp-skill">Faster-Whisper</span>
+            <span class="exp-skill">GitHub Actions</span>
+            <span class="exp-skill">ElevenLabs</span>
+            <span class="exp-skill">FFmpeg</span>
+            <span class="exp-skill">Claude Code</span>
           </div>
         </div>
-        <ul class="tags"><li>React</li><li>Vite</li><li>Context API</li><li>Shopify GraphQL</li><li>Supabase</li><li>PostgreSQL</li><li>Git/GitHub</li></ul>
       </div>
-    </details>
 
-    <details class="project-card accent-code reveal">
-      <summary>
-        <div class="summary-main">
-          <span class="eyebrow">En desarrollo</span>
-          <h3>Salpicados — plataformas con minas de agua</h3>
-          <p class="one-liner">Mario Bros por fuera, Buscaminas por dentro: cada partida genera un mapa distinto.</p>
+      <div class="exp-item">
+        <div class="exp-meta">
+          <p class="exp-date">Abr — Jul 2021</p>
+          <span class="exp-type laboral">Laboral</span>
         </div>
-        <span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span>
-      </summary>
-      <div class="project-detail">
-        <div class="tech-breakdown">
-          <div class="tech-group">
-            <span class="tech-group-title">Core stack & motor de juego</span>
-            <p><strong>JavaScript (ES6+)</strong> — lenguaje principal para toda la lógica del juego, el control de flujo, la gestión de eventos del usuario y la manipulación dinámica de elementos.</p>
-            <p><strong>Phaser 3</strong> — framework de código abierto para videojuegos 2D en HTML5, elegido por su sistema de renderizado, su gestión del ciclo de vida (<code>preload</code>, <code>create</code>, <code>update</code>) y su escalabilidad.</p>
-          </div>
-          <div class="tech-group">
-            <span class="tech-group-title">Arquitectura & sistemas del juego</span>
-            <p><strong>Phaser Arcade Physics</strong> — motor de físicas integrado para gestionar gravedad, hitboxes, velocidades y fricción de los personajes sobre las plataformas, optimizado a 60 FPS.</p>
-            <p><strong>Cámaras y viewport dinámico</strong> — sistema de seguimiento de cámara (<code>startFollow</code>) y scroll lateral que renderiza un mundo extendido más allá de los límites de la pantalla inicial.</p>
-          </div>
-          <div class="tech-group">
-            <span class="tech-group-title">Metodologías de programación</span>
-            <p><strong>Generación procedural y algoritmia</strong> — creación dinámica del mapa mediante bucles lógicos y cálculo de probabilidades (<code>Math.random()</code>) para posicionar las minas de agua, haciendo que cada partida sea única.</p>
-            <p><strong>Programación orientada a eventos</strong> — gestión del flujo de pantallas (inicio → selección de personaje → partida activa) con listeners de Phaser para clics, pantallas táctiles y teclado en tiempo real.</p>
-          </div>
-          <div class="tech-group">
-            <span class="tech-group-title">Entorno de desarrollo & despliegue</span>
-            <p><strong>GitHub Codespaces</strong> — entorno de desarrollo en la nube basado en contenedores Docker, para un workspace consistente y accesible desde cualquier dispositivo.</p>
-            <p><strong>Node.js & Serve</strong> — servidor local de desarrollo con recarga en vivo (Live Reloading), optimizando el ciclo de pruebas y depuración en el navegador.</p>
+        <div class="exp-body">
+          <h3>Editora de vídeo</h3>
+          <p class="exp-company">Agencia Visual Extremeña · Extremadura</p>
+          <p>Edición y postproducción de vídeo para clientes de la agencia. Montaje, corrección de color, motion graphics y entrega de piezas audiovisuales para redes sociales y publicidad.</p>
+          <div class="exp-skills">
+            <span class="exp-skill">Adobe Premiere Pro</span>
+            <span class="exp-skill">After Effects</span>
+            <span class="exp-skill">DaVinci Resolve</span>
+            <span class="exp-skill">Photoshop</span>
           </div>
         </div>
-        <ul class="tags"><li>JavaScript</li><li>Phaser 3</li><li>Arcade Physics</li><li>Generación procedural</li><li>GitHub Codespaces</li><li>Node.js</li></ul>
       </div>
-    </details>
 
-    <details class="project-card accent-fusion reveal">
-      <summary>
-        <div class="summary-main">
-          <span class="eyebrow">Prácticas en curso</span>
-          <h3>QuantumSec — producción de contenido en ciberseguridad con IA</h3>
-          <p class="one-liner">Pipeline completo de contenido para Instagram y LinkedIn: dev, motion design e IA.</p>
+      <div class="exp-item">
+        <div class="exp-meta">
+          <p class="exp-date">2025 — 2026</p>
+          <span class="exp-type formacion">Formación</span>
         </div>
-        <span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span>
-      </summary>
-      <div class="project-detail">
-        <p>Diseño y desarrollo el pipeline completo de creación de contenido audiovisual para redes sociales de QuantumSec, combinando desarrollo frontend, motion design programático e inteligencia artificial.</p>
-        <div class="tech-breakdown">
-          <div class="tech-group">
-            <span class="tech-group-title">Animación y motion graphics</span>
-            <p><strong>Remotion (React + TypeScript)</strong> — generación de vídeos verticales con composiciones declarativas, animaciones SVG, efectos de partículas y transiciones programáticas, sobre un design system de marca con varias paletas visuales (cyberpunk/Matrix, minimalista, corporativo).</p>
-          </div>
-          <div class="tech-group">
-            <span class="tech-group-title">Transcripción y subtitulado</span>
-            <p><strong>Faster-Whisper (CTranslate2)</strong> — transcripción automática de audio con timestamps a nivel de palabra, generación de subtítulos sincronizados y exportación a formato SRT.</p>
-          </div>
-          <div class="tech-group">
-            <span class="tech-group-title">Síntesis de voz</span>
-            <p><strong>ElevenLabs</strong> y <strong>Chatterbox-Turbo</strong> — integración y evaluación de locuciones y voces sintéticas para el contenido generado.</p>
-          </div>
-          <div class="tech-group">
-            <span class="tech-group-title">Investigación de contenido</span>
-            <p><strong>Last30days</strong> — research agéntico para identificar tendencias y noticias de ciberseguridad en tiempo real, alimentando el calendario editorial.</p>
-          </div>
-          <div class="tech-group">
-            <span class="tech-group-title">Desarrollo asistido por IA</span>
-            <p><strong>Claude Code</strong> — copiloto de desarrollo para iterar sobre componentes React/TSX, depurar pipelines de render y resolver incompatibilidades de entorno (versiones de Node con NVM, configuración de FFmpeg, conflictos de dependencias).</p>
-          </div>
-          <div class="tech-group">
-            <span class="tech-group-title">Edición de vídeo</span>
-            <p><strong>FFmpeg</strong> — procesamiento, escalado y conversión de vídeo, con herramientas como Editor Pro Max como referencia de UX para flujos de edición asistidos por IA.</p>
-          </div>
-          <div class="tech-group">
-            <span class="tech-group-title">Responsabilidades</span>
-            <p>Diseño del sistema visual de marca y de componentes reutilizables en React/Remotion, desarrollo de animaciones educativas sobre amenazas de ciberseguridad (phishing, ingeniería social, malware, bypass de 2FA), automatización del pipeline de transcripción y subtitulado, y resolución de problemas de entorno de desarrollo en Windows (compatibilidad de versiones, renderizado, GPU).</p>
+        <div class="exp-body">
+          <h3>Full Stack Developer</h3>
+          <p class="exp-company">4Geeks Academy</p>
+          <p>Bootcamp intensivo de desarrollo full stack. JavaScript, React, Python, SQL, APIs REST, autenticación JWT y despliegue en la nube.</p>
+          <div class="exp-skills">
+            <span class="exp-skill">JavaScript</span>
+            <span class="exp-skill">React</span>
+            <span class="exp-skill">Python</span>
+            <span class="exp-skill">SQL</span>
+            <span class="exp-skill">Flask</span>
+            <span class="exp-skill">JWT</span>
           </div>
         </div>
-        <ul class="tags"><li>Remotion</li><li>React/TypeScript</li><li>Faster-Whisper</li><li>ElevenLabs</li><li>Last30days</li><li>Claude Code</li><li>FFmpeg</li></ul>
       </div>
-    </details>
 
-  </div>
-</section>
+      <div class="exp-item">
+        <div class="exp-meta">
+          <p class="exp-date">Universidad</p>
+          <span class="exp-type formacion">Formación</span>
+        </div>
+        <div class="exp-body">
+          <h3>Comunicación Audiovisual · Información y Documentación · Documentación Sanitaria</h3>
+          <p class="exp-company">Universidad de Extremadura</p>
+          <p>Triple titulación con base en comunicación digital, gestión de la información y documentación aplicada al sector sanitario.</p>
+        </div>
+      </div>
 
-<footer class="contact" id="contacto">
-  <h2>Hablemos</h2>
-  <p>Si quieres ver alguno de estos proyectos con más detalle o hablar de una colaboración, aquí me encuentras.</p>
-  <div class="link-row">
-    <a class="pill-link" href="martainigocasado@gmail.com">Email ↗</a>
-    <a class="pill-link" href="https://github.com/martaic">GitHub ↗</a>
-    <a class="pill-link" href="https://www.linkedin.com/in/marta-i%C3%B1igo-casado/">LinkedIn ↗</a>
-  </div>
-</footer>
+    </div>
+  </section>
 
-<p class="fineprint">© 2026 Marta Iñigo Casado</p>
+  <!-- PROYECTOS -->
+  <section id="proyectos">
+    <p class="section-label">PROYECTOS</p>
+    <div class="project-list">
 
-<script>
-  // --- Divider drag interaction ---
-  (function(){
-    var panel = document.getElementById('duoPanel');
-    var divider = document.getElementById('divider');
-    var dragging = false;
+      <!-- QUANTUMSEC -->
+      <div class="project">
+        <div class="project-header">
+          <div>
+            <p class="project-title">QuantumSec — pipeline de contenido con IA</p>
+            <p class="project-subtitle">Pipeline completo para Instagram y LinkedIn: dev, motion design e IA</p>
+          </div>
+          <span class="project-status active">Prácticas en curso</span>
+        </div>
+        <div class="project-body">
+          <p style="font-size:0.9rem;color:var(--muted);margin-bottom:1.75rem;line-height:1.7">Diseño y desarrollo del pipeline completo de creación de contenido audiovisual para redes sociales de QuantumSec, combinando desarrollo frontend, motion design programático e inteligencia artificial.</p>
 
-    function isDesktop(){ return window.matchMedia('(min-width: 701px)').matches; }
+          <div class="tech-group">
+            <p class="tech-group-label">Animación y motion graphics</p>
+            <p class="tech-item"><strong>Remotion (React + TypeScript)</strong> — generación de vídeos verticales con composiciones declarativas, animaciones SVG realistas, efectos de partículas y transiciones programáticas sobre un design system de marca propio.</p>
+          </div>
 
-    function setSplit(pct){
-      pct = Math.max(20, Math.min(80, pct));
-      panel.style.setProperty('--split', pct + '%');
-    }
+          <div class="tech-group">
+            <p class="tech-group-label">Generación de posts y assets</p>
+            <p class="tech-item"><strong>Python / Pillow</strong> — generación automática de posts para LinkedIn con tipografía, datos y branding aplicados programáticamente desde plantillas Python.</p>
+          </div>
 
-    function moveFromClientX(x){
-      var rect = panel.getBoundingClientRect();
-      var pct = ((x - rect.left) / rect.width) * 100;
-      setSplit(pct);
-    }
+          <div class="tech-group">
+            <p class="tech-group-label">Transcripción y subtitulado</p>
+            <p class="tech-item"><strong>Faster-Whisper (CTranslate2)</strong> — transcripción automática de audio con timestamps a nivel de palabra para subtítulos karaoke sincronizados en Remotion.</p>
+          </div>
 
-    divider.addEventListener('pointerdown', function(e){
-      if(!isDesktop()) return;
-      dragging = true;
-      divider.setPointerCapture(e.pointerId);
-    });
-    divider.addEventListener('pointermove', function(e){
-      if(!dragging) return;
-      moveFromClientX(e.clientX);
-    });
-    divider.addEventListener('pointerup', function(){ dragging = false; });
-    divider.addEventListener('pointercancel', function(){ dragging = false; });
+          <div class="tech-group">
+            <p class="tech-group-label">Automatización editorial</p>
+            <p class="tech-item"><strong>quantumsec-content-bot</strong> — bot con GitHub Actions que ejecuta cada domingo, busca noticias de ciberseguridad con Last30Days y genera automáticamente el calendario editorial semanal en JSON.</p>
+            <p class="tech-item" style="margin-top:0.5rem"><strong>Brain Editorial</strong> — panel de estrategia de contenido desplegado en GitHub Pages con horarios óptimos de publicación, ranking de formatos, hashtags por plataforma e insights del sector B2B en España.</p>
+          </div>
 
-    divider.addEventListener('keydown', function(e){
-      var current = parseFloat(getComputedStyle(panel).getPropertyValue('--split')) || 50;
-      if(e.key === 'ArrowLeft'){ setSplit(current - 5); e.preventDefault(); }
-      if(e.key === 'ArrowRight'){ setSplit(current + 5); e.preventDefault(); }
-    });
-  })();
+          <div class="tech-group">
+            <p class="tech-group-label">Síntesis de voz e IA</p>
+            <p class="tech-item"><strong>ElevenLabs</strong> — generación de locuciones de alta calidad para los Reels animados.</p>
+            <p class="tech-item" style="margin-top:0.5rem"><strong>Claude Code</strong> — copiloto de desarrollo para iterar sobre componentes React/TSX, depurar pipelines y resolver incompatibilidades de entorno.</p>
+          </div>
 
-  // --- Typewriter código ---
-  (function(){
-    var container = document.getElementById('stackChips');
-    var lines = [
-      {text:'const dev = {', color:'var(--paper-60)'},
-      {text:'  nombre: "Marta Iñigo Casado",', color:'var(--code-mint)'},
-      {text:'  rol: "Full Stack Developer",', color:'var(--cyan)'},
-      {text:'  formacion: [', color:'var(--paper-60)'},
-      {text:'    "4Geeks Academy",', color:'var(--edit-coral)'},
-      {text:'    "Comunicación Audiovisual · UEx",', color:'var(--edit-coral)'},
-      {text:'    "Información y Documentación · UEx",', color:'var(--edit-coral)'},
-      {text:'  ]', color:'var(--paper-60)'},
-      {text:'};', color:'var(--paper-60)'},
-    ];
+          <div class="tech-group">
+            <p class="tech-group-label">Infraestructura y despliegue</p>
+            <p class="tech-item"><strong>GitHub Pages</strong> — despliegue del calendario editorial, Brain Editorial y banco de vídeos de stock, todos accesibles públicamente.</p>
+            <p class="tech-item" style="margin-top:0.5rem"><strong>FFmpeg</strong> — procesamiento, escalado y conversión de vídeo en el pipeline de producción.</p>
+          </div>
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">Remotion</span>
+          <span class="project-tag">React/TypeScript</span>
+          <span class="project-tag">Python/Pillow</span>
+          <span class="project-tag">Faster-Whisper</span>
+          <span class="project-tag">ElevenLabs</span>
+          <span class="project-tag">GitHub Actions</span>
+          <span class="project-tag">GitHub Pages</span>
+          <span class="project-tag">Claude Code</span>
+          <span class="project-tag">FFmpeg</span>
+          <span class="project-tag">Last30Days</span>
+        </div>
+      </div>
 
-    container.style.fontFamily = 'var(--font-mono)';
-    container.style.fontSize = '0.72rem';
-    container.style.lineHeight = '1.7';
-    container.style.display = 'flex';
-    container.style.flexDirection = 'column';
-    container.style.gap = '0';
-    container.style.overflow = 'hidden';
+      <!-- TIENDA -->
+      <div class="project">
+        <div class="project-header">
+          <div>
+            <p class="project-title">Tienda online — Shopify + Supabase</p>
+            <p class="project-subtitle">E-commerce con backend propio y diseño construido desde cero, sin plantillas</p>
+          </div>
+          <span class="project-status done">Completado</span>
+        </div>
+        <div class="project-body">
+          <div class="tech-group">
+            <p class="tech-group-label">Frontend & gestión de estado</p>
+            <p class="tech-item"><strong>React (Vite)</strong> — framework principal con arquitectura modular basada en componentes funcionales.</p>
+            <p class="tech-item" style="margin-top:0.5rem"><strong>React Context API</strong> — sistema de estado global (CartContext) para controlar el carrito: añadir productos, actualizar cantidades, vaciar ítems y sincronizar totales entre rutas y componentes.</p>
+          </div>
+          <div class="tech-group">
+            <p class="tech-group-label">E-commerce & pasarela de pago</p>
+            <p class="tech-item"><strong>Shopify Storefront API (GraphQL)</strong> — conexión del frontend con el motor de Shopify mediante consultas y mutaciones optimizadas.</p>
+            <p class="tech-item" style="margin-top:0.5rem"><strong>Shopify Cart API & Checkout</strong> — servicio intermedio propio que transforma IDs de productos locales a variantes globales de la API para la redirección a la pasarela de pago.</p>
+          </div>
+          <div class="tech-group">
+            <p class="tech-group-label">Backend & persistencia</p>
+            <p class="tech-item"><strong>Supabase</strong> — BaaS para gestión y almacenamiento del catálogo de productos y usuarios con base de datos PostgreSQL.</p>
+          </div>
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">React</span>
+          <span class="project-tag">Vite</span>
+          <span class="project-tag">Context API</span>
+          <span class="project-tag">Shopify GraphQL</span>
+          <span class="project-tag">Supabase</span>
+          <span class="project-tag">PostgreSQL</span>
+          <span class="project-tag">Git/GitHub</span>
+        </div>
+      </div>
 
-    var lineIndex = 0;
-    var charIndex = 0;
-    var currentEl = null;
+      <!-- SALPICADOS -->
+      <div class="project">
+        <div class="project-header">
+          <div>
+            <p class="project-title">Salpicados — plataformas con minas de agua</p>
+            <p class="project-subtitle">Mario Bros por fuera, Buscaminas por dentro: cada partida genera un mapa distinto</p>
+          </div>
+          <span class="project-status wip">En desarrollo</span>
+        </div>
+        <div class="project-body">
+          <div class="tech-group">
+            <p class="tech-group-label">Core stack & motor de juego</p>
+            <p class="tech-item"><strong>JavaScript (ES6+)</strong> — lógica del juego, control de flujo, gestión de eventos y manipulación dinámica de elementos.</p>
+            <p class="tech-item" style="margin-top:0.5rem"><strong>Phaser 3</strong> — framework para videojuegos 2D en HTML5 con sistema de renderizado, ciclo de vida (preload, create, update) y escalabilidad.</p>
+          </div>
+          <div class="tech-group">
+            <p class="tech-group-label">Arquitectura & sistemas</p>
+            <p class="tech-item"><strong>Phaser Arcade Physics</strong> — motor de físicas para gravedad, hitboxes, velocidades y fricción optimizado a 60 FPS.</p>
+            <p class="tech-item" style="margin-top:0.5rem"><strong>Generación procedural</strong> — creación dinámica del mapa con bucles y cálculo de probabilidades para posicionar minas, haciendo cada partida única.</p>
+          </div>
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">JavaScript</span>
+          <span class="project-tag">Phaser 3</span>
+          <span class="project-tag">Arcade Physics</span>
+          <span class="project-tag">Generación procedural</span>
+          <span class="project-tag">Node.js</span>
+        </div>
+      </div>
 
-    function nextLine(){
-      if(lineIndex >= lines.length) return;
-      var line = lines[lineIndex];
-      currentEl = document.createElement('span');
-      currentEl.style.color = line.color;
-      currentEl.style.whiteSpace = 'pre';
-      container.appendChild(currentEl);
-      charIndex = 0;
-      typeChar();
-    }
+    </div>
+  </section>
 
-    function typeChar(){
-      var line = lines[lineIndex];
-      if(charIndex < line.text.length){
-        currentEl.textContent += line.text[charIndex];
-        charIndex++;
-        setTimeout(typeChar, 28);
-      } else {
-        lineIndex++;
-        setTimeout(nextLine, 60);
-      }
-    }
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <p class="section-label">CONTACTO</p>
+    <h2 style="margin-bottom:2rem">Hablemos.</h2>
+    <div class="contact-grid">
+      <a href="mailto:martainigocasado@gmail.com" class="contact-link">
+        <span class="contact-link-label">EMAIL</span>
+        <span class="contact-link-value">martainigocasado@gmail.com</span>
+      </a>
+      <a href="https://github.com/martaic" target="_blank" class="contact-link">
+        <span class="contact-link-label">GITHUB</span>
+        <span class="contact-link-value">github.com/martaic</span>
+      </a>
+      <a href="https://www.linkedin.com/in/marta-i%C3%B1igo-casado/" target="_blank" class="contact-link">
+        <span class="contact-link-label">LINKEDIN</span>
+        <span class="contact-link-value">marta-iñigo-casado</span>
+      </a>
+    </div>
+  </section>
 
-    setTimeout(nextLine, 400);
-  })();
-
-  // --- Waveform animado ---
-  (function(){
-    var wf = document.getElementById('waveform');
-    var heights = [22,38,55,30,48,64,26,42,58,32,50,24,40,62,28,44,36,52,20,46];
-    var colors = ['var(--edit-coral)','var(--cyan)','var(--code-mint)'];
-    heights.forEach(function(h, i){
-      var bar = document.createElement('span');
-      bar.style.height = h + 'px';
-      bar.style.background = colors[i % colors.length];
-      bar.style.animationDelay = (i * 0.06) + 's';
-      bar.style.animationDuration = (0.9 + (i % 4) * 0.15) + 's';
-      wf.appendChild(bar);
-    });
-  })();
-
-  // --- Timecode animado ---
-  (function(){
-    var el = document.getElementById('timecodeVal');
-    if(!el) return;
-    var frames = 0;
-    setInterval(function(){
-      frames++;
-      var f = frames % 25;
-      var s = Math.floor(frames / 25) % 60;
-      var m = Math.floor(frames / 1500) % 60;
-      el.textContent = '00:' +
-        String(m).padStart(2,'0') + ':' +
-        String(s).padStart(2,'0') + ':' +
-        String(f).padStart(2,'0');
-    }, 40);
-  })();
-
-  // --- Scroll reveal ---
-  (function(){
-    var items = document.querySelectorAll('.reveal');
-    if(!('IntersectionObserver' in window)){
-      items.forEach(function(el){ el.classList.add('is-visible'); });
-      return;
-    }
-    var obs = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){
-          entry.target.classList.add('is-visible');
-          obs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15 });
-    items.forEach(function(el){ obs.observe(el); });
-  })();
-</script>
+  <footer>
+    <p>© 2026 Marta Iñigo Casado</p>
+  </footer>
 
 </body>
 </html>
